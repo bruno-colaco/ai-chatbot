@@ -4,7 +4,6 @@ import { useCopyToClipboard } from 'usehooks-ts';
 
 import type { Vote } from '@/lib/db/schema';
 
-import { CopyIcon, ThumbDownIcon, ThumbUpIcon } from './icons';
 import { Button } from './ui/button';
 import {
   Tooltip,
@@ -15,6 +14,11 @@ import {
 import { memo } from 'react';
 import equal from 'fast-deep-equal';
 import { toast } from 'sonner';
+import {
+  ArrowsCounterClockwise,
+  ArrowsSplit,
+  Copy,
+} from '@phosphor-icons/react';
 
 export function PureMessageActions({
   chatId,
@@ -35,7 +39,7 @@ export function PureMessageActions({
 
   return (
     <TooltipProvider delayDuration={0}>
-      <div className="flex flex-row gap-2">
+      <div className="flex flex-row gap-2 opacity-0 transition-opacity duration-300 group-hover/message:opacity-100">
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
@@ -57,13 +61,13 @@ export function PureMessageActions({
                 toast.success('Copied to clipboard!');
               }}
             >
-              <CopyIcon />
+              <Copy />
             </Button>
           </TooltipTrigger>
           <TooltipContent>Copy</TooltipContent>
         </Tooltip>
 
-        <Tooltip>
+        {/*<Tooltip>
           <TooltipTrigger asChild>
             <Button
               data-testid="message-upvote"
@@ -114,9 +118,9 @@ export function PureMessageActions({
             </Button>
           </TooltipTrigger>
           <TooltipContent>Upvote Response</TooltipContent>
-        </Tooltip>
+        </Tooltip>*/}
 
-        <Tooltip>
+        {/*<Tooltip>
           <TooltipTrigger asChild>
             <Button
               data-testid="message-downvote"
@@ -167,6 +171,35 @@ export function PureMessageActions({
             </Button>
           </TooltipTrigger>
           <TooltipContent>Downvote Response</TooltipContent>
+        </Tooltip>*/}
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              className="py-1 px-2 h-fit text-muted-foreground"
+              variant="outline"
+              onClick={() => {
+                // TODO: Implement retry action
+              }}
+            >
+              <ArrowsCounterClockwise />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Retry</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              className="py-1 px-2 h-fit text-muted-foreground"
+              variant="outline"
+              onClick={() => {
+                // TODO: Implement branch out action
+              }}
+            >
+              <ArrowsSplit />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Branch Out</TooltipContent>
         </Tooltip>
       </div>
     </TooltipProvider>

@@ -10,8 +10,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist)'],
-        mono: ['var(--font-geist-mono)'],
+        sans: ['var(--font-dm-sans)', 'var(--font-geist)'],
+        mono: ['var(--font-fira-mono)', 'var(--font-geist-mono)'],
       },
       screens: {
         'toast-mobile': '600px',

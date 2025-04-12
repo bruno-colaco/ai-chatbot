@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronDownIcon, LoaderIcon } from './icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Markdown } from './markdown';
+import { CaretDown, CircleNotch } from '@phosphor-icons/react';
 
 interface MessageReasoningProps {
   isLoading: boolean;
@@ -37,7 +37,7 @@ export function MessageReasoning({
         <div className="flex flex-row gap-2 items-center">
           <div className="font-medium">Reasoning</div>
           <div className="animate-spin">
-            <LoaderIcon />
+            <CircleNotch />
           </div>
         </div>
       ) : (
@@ -51,7 +51,7 @@ export function MessageReasoning({
               setIsExpanded(!isExpanded);
             }}
           >
-            <ChevronDownIcon />
+            <CaretDown />
           </button>
         </div>
       )}

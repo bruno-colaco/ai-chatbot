@@ -2,17 +2,17 @@ import { Artifact } from '@/components/create-artifact';
 import { DiffView } from '@/components/diffview';
 import { DocumentSkeleton } from '@/components/document-skeleton';
 import { Editor } from '@/components/text-editor';
-import {
-  ClockRewind,
-  CopyIcon,
-  MessageIcon,
-  PenIcon,
-  RedoIcon,
-  UndoIcon,
-} from '@/components/icons';
-import { Suggestion } from '@/lib/db/schema';
+import type { Suggestion } from '@/lib/db/schema';
 import { toast } from 'sonner';
 import { getSuggestions } from '../actions';
+import {
+  ArrowClockwise,
+  ArrowCounterClockwise,
+  ChatCircle,
+  ClockCounterClockwise,
+  Copy,
+  PenNib,
+} from '@phosphor-icons/react';
 
 interface TextArtifactMetadata {
   suggestions: Array<Suggestion>;
@@ -90,9 +90,7 @@ export const textArtifact = new Artifact<'text', TextArtifactMetadata>({
             onSaveContent={onSaveContent}
           />
 
-          {metadata &&
-          metadata.suggestions &&
-          metadata.suggestions.length > 0 ? (
+          {metadata?.suggestions && metadata.suggestions.length > 0 ? (
             <div className="md:hidden h-dvh w-12 shrink-0" />
           ) : null}
         </div>
@@ -101,7 +99,7 @@ export const textArtifact = new Artifact<'text', TextArtifactMetadata>({
   },
   actions: [
     {
-      icon: <ClockRewind size={18} />,
+      icon: <ClockCounterClockwise size={16} />,
       description: 'View changes',
       onClick: ({ handleVersionChange }) => {
         handleVersionChange('toggle');
@@ -115,7 +113,7 @@ export const textArtifact = new Artifact<'text', TextArtifactMetadata>({
       },
     },
     {
-      icon: <UndoIcon size={18} />,
+      icon: <ArrowCounterClockwise size={16} />,
       description: 'View Previous version',
       onClick: ({ handleVersionChange }) => {
         handleVersionChange('prev');
@@ -129,7 +127,7 @@ export const textArtifact = new Artifact<'text', TextArtifactMetadata>({
       },
     },
     {
-      icon: <RedoIcon size={18} />,
+      icon: <ArrowClockwise size={16} />,
       description: 'View Next version',
       onClick: ({ handleVersionChange }) => {
         handleVersionChange('next');
@@ -143,7 +141,7 @@ export const textArtifact = new Artifact<'text', TextArtifactMetadata>({
       },
     },
     {
-      icon: <CopyIcon size={18} />,
+      icon: <Copy size={16} />,
       description: 'Copy to clipboard',
       onClick: ({ content }) => {
         navigator.clipboard.writeText(content);
@@ -153,7 +151,7 @@ export const textArtifact = new Artifact<'text', TextArtifactMetadata>({
   ],
   toolbar: [
     {
-      icon: <PenIcon />,
+      icon: <PenNib />,
       description: 'Add final polish',
       onClick: ({ appendMessage }) => {
         appendMessage({
@@ -164,7 +162,7 @@ export const textArtifact = new Artifact<'text', TextArtifactMetadata>({
       },
     },
     {
-      icon: <MessageIcon />,
+      icon: <ChatCircle />,
       description: 'Request suggestions',
       onClick: ({ appendMessage }) => {
         appendMessage({

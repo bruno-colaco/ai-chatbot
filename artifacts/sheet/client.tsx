@@ -1,12 +1,12 @@
 import { Artifact } from '@/components/create-artifact';
-import {
-  CopyIcon,
-  LineChartIcon,
-  RedoIcon,
-  SparklesIcon,
-  UndoIcon,
-} from '@/components/icons';
 import { SpreadsheetEditor } from '@/components/sheet-editor';
+import {
+  ChartLine,
+  ClockClockwise,
+  ClockCounterClockwise,
+  Copy,
+  Sparkle,
+} from '@phosphor-icons/react';
 import { parse, unparse } from 'papaparse';
 import { toast } from 'sonner';
 
@@ -45,7 +45,7 @@ export const sheetArtifact = new Artifact<'sheet', Metadata>({
   },
   actions: [
     {
-      icon: <UndoIcon size={18} />,
+      icon: <ClockCounterClockwise size={18} />,
       description: 'View Previous version',
       onClick: ({ handleVersionChange }) => {
         handleVersionChange('prev');
@@ -59,7 +59,7 @@ export const sheetArtifact = new Artifact<'sheet', Metadata>({
       },
     },
     {
-      icon: <RedoIcon size={18} />,
+      icon: <ClockClockwise size={18} />,
       description: 'View Next version',
       onClick: ({ handleVersionChange }) => {
         handleVersionChange('next');
@@ -73,7 +73,7 @@ export const sheetArtifact = new Artifact<'sheet', Metadata>({
       },
     },
     {
-      icon: <CopyIcon />,
+      icon: <Copy />,
       description: 'Copy as .csv',
       onClick: ({ content }) => {
         const parsed = parse<string[]>(content, { skipEmptyLines: true });
@@ -92,7 +92,7 @@ export const sheetArtifact = new Artifact<'sheet', Metadata>({
   toolbar: [
     {
       description: 'Format and clean data',
-      icon: <SparklesIcon />,
+      icon: <Sparkle />,
       onClick: ({ appendMessage }) => {
         appendMessage({
           role: 'user',
@@ -102,7 +102,7 @@ export const sheetArtifact = new Artifact<'sheet', Metadata>({
     },
     {
       description: 'Analyze and visualize data',
-      icon: <LineChartIcon />,
+      icon: <ChartLine />,
       onClick: ({ appendMessage }) => {
         appendMessage({
           role: 'user',

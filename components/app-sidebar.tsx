@@ -1,11 +1,7 @@
 'use client';
 
-import type { User } from 'next-auth';
 import { useRouter } from 'next/navigation';
-
-import { PlusIcon } from '@/components/icons';
 import { SidebarHistory } from '@/components/sidebar-history';
-import { SidebarUserNav } from '@/components/sidebar-user-nav';
 import { Button } from '@/components/ui/button';
 import {
   Sidebar,
@@ -17,10 +13,17 @@ import {
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
+import { UserButton, useUser } from '@clerk/nextjs';
+import { Plus } from '@phosphor-icons/react';
 
-export function AppSidebar({ user }: { user: User | undefined }) {
+export function AppSidebar() {
   const router = useRouter();
   const { setOpenMobile } = useSidebar();
+  const { user } = useUser();
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <Sidebar className="group-data-[side=left]:border-r-0">
@@ -35,7 +38,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
               className="flex flex-row gap-3 items-center"
             >
               <span className="text-lg font-semibold px-2 hover:bg-muted rounded-md cursor-pointer">
-                Chatbot
+                Winnie Chat
               </span>
             </Link>
             <Tooltip>
@@ -50,7 +53,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                     router.refresh();
                   }}
                 >
-                  <PlusIcon />
+                  <Plus />
                 </Button>
               </TooltipTrigger>
               <TooltipContent align="end">New Chat</TooltipContent>
@@ -61,7 +64,21 @@ export function AppSidebar({ user }: { user: User | undefined }) {
       <SidebarContent>
         <SidebarHistory user={user} />
       </SidebarContent>
-      <SidebarFooter>{user && <SidebarUserNav user={user} />}</SidebarFooter>
+      <SidebarFooter>
+        {user && (
+          <div className="flex gap-3 items-center">
+            <UserButton />
+            <div className="flex flex-col gap-1">
+              <div className="text-sm">
+                <span>{user.fullName}</span>
+              </div>
+              <div className="text-xs text-muted-foreground">
+                <span>{user.primaryEmailAddress?.emailAddress}</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </SidebarFooter>
     </Sidebar>
   );
 }

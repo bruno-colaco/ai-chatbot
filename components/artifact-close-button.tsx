@@ -1,7 +1,7 @@
 import { memo } from 'react';
-import { CrossIcon } from './icons';
 import { Button } from './ui/button';
 import { initialArtifactData, useArtifact } from '@/hooks/use-artifact';
+import { X } from '@phosphor-icons/react';
 
 function PureArtifactCloseButton() {
   const { setArtifact } = useArtifact();
@@ -22,7 +22,7 @@ function PureArtifactCloseButton() {
         );
       }}
     >
-      <CrossIcon size={18} />
+      <X size={18} />
     </Button>
   );
 }

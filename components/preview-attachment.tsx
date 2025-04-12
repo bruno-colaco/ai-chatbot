@@ -1,6 +1,5 @@
+import { CircleNotch } from '@phosphor-icons/react';
 import type { Attachment } from 'ai';
-
-import { LoaderIcon } from './icons';
 
 export const PreviewAttachment = ({
   attachment,
@@ -36,7 +35,7 @@ export const PreviewAttachment = ({
             data-testid="input-attachment-loader"
             className="animate-spin absolute text-zinc-500"
           >
-            <LoaderIcon />
+            <CircleNotch />
           </div>
         )}
       </div>

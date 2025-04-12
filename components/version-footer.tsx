@@ -9,9 +9,9 @@ import { useWindowSize } from 'usehooks-ts';
 import type { Document } from '@/lib/db/schema';
 import { getDocumentTimestampByIndex } from '@/lib/utils';
 
-import { LoaderIcon } from './icons';
 import { Button } from './ui/button';
 import { useArtifact } from '@/hooks/use-artifact';
+import { CircleNotch } from '@phosphor-icons/react';
 
 interface VersionFooterProps {
   handleVersionChange: (type: 'next' | 'prev' | 'toggle' | 'latest') => void;
@@ -89,7 +89,7 @@ export const VersionFooter = ({
           <div>Restore this version</div>
           {isMutating && (
             <div className="animate-spin">
-              <LoaderIcon />
+              <CircleNotch />
             </div>
           )}
         </Button>

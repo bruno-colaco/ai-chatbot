@@ -2,16 +2,15 @@
 
 import {
   memo,
-  MouseEvent,
+  type MouseEvent,
   useCallback,
   useEffect,
   useMemo,
   useRef,
 } from 'react';
-import { ArtifactKind, UIArtifact } from './artifact';
-import { FileIcon, FullscreenIcon, ImageIcon, LoaderIcon } from './icons';
+import type { ArtifactKind, UIArtifact } from './artifact';
 import { cn, fetcher } from '@/lib/utils';
-import { Document } from '@/lib/db/schema';
+import type { Document } from '@/lib/db/schema';
 import { InlineDocumentSkeleton } from './document-skeleton';
 import useSWR from 'swr';
 import { Editor } from './text-editor';
@@ -21,6 +20,12 @@ import { useArtifact } from '@/hooks/use-artifact';
 import equal from 'fast-deep-equal';
 import { SpreadsheetEditor } from './sheet-editor';
 import { ImageEditor } from './image-editor';
+import {
+  ArrowsOutSimple,
+  CircleNotch,
+  Image,
+  FileText,
+} from '@phosphor-icons/react';
 
 interface DocumentPreviewProps {
   isReadonly: boolean;
@@ -126,7 +131,7 @@ const LoadingSkeleton = ({ artifactKind }: { artifactKind: ArtifactKind }) => (
         <div className="animate-pulse rounded-lg h-4 bg-muted-foreground/20 w-24" />
       </div>
       <div>
-        <FullscreenIcon />
+        <ArrowsOutSimple />
       </div>
     </div>
     {artifactKind === 'image' ? (
@@ -187,7 +192,7 @@ const PureHitboxLayer = ({
     >
       <div className="w-full p-4 flex justify-end items-center">
         <div className="absolute right-[9px] top-[13px] p-2 hover:dark:bg-zinc-700 rounded-md hover:bg-zinc-100">
-          <FullscreenIcon />
+          <ArrowsOutSimple />
         </div>
       </div>
     </div>
@@ -213,12 +218,12 @@ const PureDocumentHeader = ({
       <div className="text-muted-foreground">
         {isStreaming ? (
           <div className="animate-spin">
-            <LoaderIcon />
+            <CircleNotch />
           </div>
         ) : kind === 'image' ? (
-          <ImageIcon />
+          <Image />
         ) : (
-          <FileIcon />
+          <FileText />
         )}
       </div>
       <div className="-translate-y-1 sm:translate-y-0 font-medium">{title}</div>

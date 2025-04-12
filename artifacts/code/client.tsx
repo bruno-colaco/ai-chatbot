@@ -1,20 +1,20 @@
 import { Artifact } from '@/components/create-artifact';
 import { CodeEditor } from '@/components/code-editor';
-import {
-  CopyIcon,
-  LogsIcon,
-  MessageIcon,
-  PlayIcon,
-  RedoIcon,
-  UndoIcon,
-} from '@/components/icons';
 import { toast } from 'sonner';
 import { generateUUID } from '@/lib/utils';
 import {
   Console,
-  ConsoleOutput,
-  ConsoleOutputContent,
+  type ConsoleOutput,
+  type ConsoleOutputContent,
 } from '@/components/console';
+import {
+  ArrowClockwise,
+  ArrowCounterClockwise,
+  ChatCircle,
+  Copy,
+  ListDashes,
+  Play,
+} from '@phosphor-icons/react';
 
 const OUTPUT_HANDLERS = {
   matplotlib: `
@@ -113,7 +113,7 @@ export const codeArtifact = new Artifact<'code', Metadata>({
   },
   actions: [
     {
-      icon: <PlayIcon size={18} />,
+      icon: <Play size={16} />,
       label: 'Run',
       description: 'Execute code',
       onClick: async ({ content, setMetadata }) => {
@@ -157,7 +157,12 @@ export const codeArtifact = new Artifact<'code', Metadata>({
                   ...metadata.outputs.filter((output) => output.id !== runId),
                   {
                     id: runId,
-                    contents: [{ type: 'text', value: message }],
+                    contents: [
+                      {
+                        type: 'text',
+                        value: message,
+                      },
+                    ],
                     status: 'loading_packages',
                   },
                 ],
@@ -209,7 +214,7 @@ export const codeArtifact = new Artifact<'code', Metadata>({
       },
     },
     {
-      icon: <UndoIcon size={18} />,
+      icon: <ArrowCounterClockwise size={16} />,
       description: 'View Previous version',
       onClick: ({ handleVersionChange }) => {
         handleVersionChange('prev');
@@ -223,7 +228,7 @@ export const codeArtifact = new Artifact<'code', Metadata>({
       },
     },
     {
-      icon: <RedoIcon size={18} />,
+      icon: <ArrowClockwise size={16} />,
       description: 'View Next version',
       onClick: ({ handleVersionChange }) => {
         handleVersionChange('next');
@@ -237,7 +242,7 @@ export const codeArtifact = new Artifact<'code', Metadata>({
       },
     },
     {
-      icon: <CopyIcon size={18} />,
+      icon: <Copy size={16} />,
       description: 'Copy code to clipboard',
       onClick: ({ content }) => {
         navigator.clipboard.writeText(content);
@@ -247,7 +252,7 @@ export const codeArtifact = new Artifact<'code', Metadata>({
   ],
   toolbar: [
     {
-      icon: <MessageIcon />,
+      icon: <ChatCircle />,
       description: 'Add comments',
       onClick: ({ appendMessage }) => {
         appendMessage({
@@ -257,7 +262,7 @@ export const codeArtifact = new Artifact<'code', Metadata>({
       },
     },
     {
-      icon: <LogsIcon />,
+      icon: <ListDashes />,
       description: 'Add logs',
       onClick: ({ appendMessage }) => {
         appendMessage({

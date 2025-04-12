@@ -1,6 +1,5 @@
 'use client';
 
-import type { Message } from 'ai';
 import cx from 'classnames';
 import {
   AnimatePresence,
@@ -11,7 +10,7 @@ import {
 import {
   type Dispatch,
   memo,
-  ReactNode,
+  type ReactNode,
   type SetStateAction,
   useEffect,
   useRef,
@@ -26,10 +25,10 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { ArrowUpIcon, StopIcon, SummarizeIcon } from './icons';
-import { artifactDefinitions, ArtifactKind } from './artifact';
-import { ArtifactToolbarItem } from './create-artifact';
-import { UseChatHelpers } from '@ai-sdk/react';
+import { artifactDefinitions, type ArtifactKind } from './artifact';
+import type { ArtifactToolbarItem } from './create-artifact';
+import type { UseChatHelpers } from '@ai-sdk/react';
+import { ArrowUp, Stop, TextAlignLeft } from '@phosphor-icons/react';
 
 type ToolProps = {
   description: string;
@@ -117,7 +116,7 @@ const Tool = ({
             handleSelect();
           }}
         >
-          {selectedTool === description ? <ArrowUpIcon /> : icon}
+          {selectedTool === description ? <ArrowUp /> : icon}
         </motion.div>
       </TooltipTrigger>
       <TooltipContent
@@ -223,7 +222,7 @@ const ReadingLevelSelector = ({
                 }
               }}
             >
-              {currentLevel === 2 ? <SummarizeIcon /> : <ArrowUpIcon />}
+              {currentLevel === 2 ? <TextAlignLeft /> : <ArrowUp />}
             </motion.div>
           </TooltipTrigger>
           <TooltipContent
@@ -426,7 +425,7 @@ const PureToolbar = ({
               setMessages((messages) => messages);
             }}
           >
-            <StopIcon />
+            <Stop weight="fill" />
           </motion.div>
         ) : selectedTool === 'adjust-reading-level' ? (
           <ReadingLevelSelector

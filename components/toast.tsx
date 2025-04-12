@@ -1,12 +1,12 @@
 'use client';
 
-import React, { ReactNode } from 'react';
+import { CheckCircle, Warning } from '@phosphor-icons/react';
+import React, { type ReactNode } from 'react';
 import { toast as sonnerToast } from 'sonner';
-import { CheckCircleFillIcon, WarningIcon } from './icons';
 
 const iconsByType: Record<'success' | 'error', ReactNode> = {
-  success: <CheckCircleFillIcon />,
-  error: <WarningIcon />,
+  success: <CheckCircle weight="fill" />,
+  error: <Warning />,
 };
 
 export function toast(props: Omit<ToastProps, 'id'>) {

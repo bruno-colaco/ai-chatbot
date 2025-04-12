@@ -1,4 +1,4 @@
-import { Chat } from '@/lib/db/schema';
+import type { Chat } from '@/lib/db/schema';
 import {
   SidebarMenuAction,
   SidebarMenuButton,
@@ -15,16 +15,16 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu';
-import {
-  CheckCircleFillIcon,
-  GlobeIcon,
-  LockIcon,
-  MoreHorizontalIcon,
-  ShareIcon,
-  TrashIcon,
-} from './icons';
 import { memo } from 'react';
 import { useChatVisibility } from '@/hooks/use-chat-visibility';
+import {
+  CheckCircle,
+  DotsThree,
+  Globe,
+  Lock,
+  Share,
+  Trash,
+} from '@phosphor-icons/react';
 
 const PureChatItem = ({
   chat,
@@ -56,7 +56,7 @@ const PureChatItem = ({
             className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground mr-0.5"
             showOnHover={!isActive}
           >
-            <MoreHorizontalIcon />
+            <DotsThree />
             <span className="sr-only">More</span>
           </SidebarMenuAction>
         </DropdownMenuTrigger>
@@ -64,7 +64,7 @@ const PureChatItem = ({
         <DropdownMenuContent side="bottom" align="end">
           <DropdownMenuSub>
             <DropdownMenuSubTrigger className="cursor-pointer">
-              <ShareIcon />
+              <Share />
               <span>Share</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
@@ -76,11 +76,11 @@ const PureChatItem = ({
                   }}
                 >
                   <div className="flex flex-row gap-2 items-center">
-                    <LockIcon size={12} />
+                    <Lock size={12} />
                     <span>Private</span>
                   </div>
                   {visibilityType === 'private' ? (
-                    <CheckCircleFillIcon />
+                    <CheckCircle weight="fill" />
                   ) : null}
                 </DropdownMenuItem>
                 <DropdownMenuItem
@@ -90,10 +90,12 @@ const PureChatItem = ({
                   }}
                 >
                   <div className="flex flex-row gap-2 items-center">
-                    <GlobeIcon />
+                    <Globe />
                     <span>Public</span>
                   </div>
-                  {visibilityType === 'public' ? <CheckCircleFillIcon /> : null}
+                  {visibilityType === 'public' ? (
+                    <CheckCircle weight="fill" />
+                  ) : null}
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
@@ -103,7 +105,7 @@ const PureChatItem = ({
             className="cursor-pointer text-destructive focus:bg-destructive/15 focus:text-destructive dark:text-red-500"
             onSelect={() => onDelete(chat.id)}
           >
-            <TrashIcon />
+            <Trash />
             <span>Delete</span>
           </DropdownMenuItem>
         </DropdownMenuContent>

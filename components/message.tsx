@@ -6,7 +6,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { memo, useState } from 'react';
 import type { Vote } from '@/lib/db/schema';
 import { DocumentToolCall, DocumentToolResult } from './document';
-import { PencilEditIcon, SparklesIcon } from './icons';
 import { Markdown } from './markdown';
 import { MessageActions } from './message-actions';
 import { PreviewAttachment } from './preview-attachment';
@@ -18,7 +17,8 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { MessageEditor } from './message-editor';
 import { DocumentPreview } from './document-preview';
 import { MessageReasoning } from './message-reasoning';
-import { UseChatHelpers } from '@ai-sdk/react';
+import type { UseChatHelpers } from '@ai-sdk/react';
+import { PencilSimpleLine, Sparkle } from '@phosphor-icons/react';
 
 const PurePreviewMessage = ({
   chatId,
@@ -60,7 +60,7 @@ const PurePreviewMessage = ({
           {message.role === 'assistant' && (
             <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border bg-background">
               <div className="translate-y-px">
-                <SparklesIcon size={14} />
+                <Sparkle size={14} />
               </div>
             </div>
           )}
@@ -104,12 +104,12 @@ const PurePreviewMessage = ({
                             <Button
                               data-testid="message-edit-button"
                               variant="ghost"
-                              className="px-2 h-fit rounded-full text-muted-foreground opacity-0 group-hover/message:opacity-100"
+                              className="px-2 h-fit rounded-full text-muted-foreground opacity-0 transition-opacity duration-300 group-hover/message:opacity-100"
                               onClick={() => {
                                 setMode('edit');
                               }}
                             >
-                              <PencilEditIcon />
+                              <PencilSimpleLine />
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>Edit message</TooltipContent>
@@ -262,7 +262,7 @@ export const ThinkingMessage = () => {
         )}
       >
         <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border">
-          <SparklesIcon size={14} />
+          <Sparkle size={14} />
         </div>
 
         <div className="flex flex-col gap-2 w-full">

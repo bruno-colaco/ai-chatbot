@@ -6,10 +6,10 @@ import { useWindowSize } from 'usehooks-ts';
 
 import type { UISuggestion } from '@/lib/editor/suggestions';
 
-import { CrossIcon, MessageIcon } from './icons';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
-import { ArtifactKind } from './artifact';
+import type { ArtifactKind } from './artifact';
+import { ChatCircle, X } from '@phosphor-icons/react';
 
 export const Suggestion = ({
   suggestion,
@@ -36,7 +36,7 @@ export const Suggestion = ({
           }}
           whileHover={{ scale: 1.1 }}
         >
-          <MessageIcon size={windowWidth && windowWidth < 768 ? 16 : 14} />
+          <ChatCircle size={windowWidth && windowWidth < 768 ? 16 : 14} />
         </motion.div>
       ) : (
         <motion.div
@@ -60,7 +60,7 @@ export const Suggestion = ({
                 setIsExpanded(false);
               }}
             >
-              <CrossIcon size={12} />
+              <X size={12} />
             </button>
           </div>
           <div>{suggestion.description}</div>

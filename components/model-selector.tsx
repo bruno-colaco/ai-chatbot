@@ -2,7 +2,6 @@
 
 import { startTransition, useMemo, useOptimistic, useState } from 'react';
 
-import { saveChatModelAsCookie } from '@/app/(chat)/actions';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -13,14 +12,14 @@ import {
 import { chatModels } from '@/lib/ai/models';
 import { cn } from '@/lib/utils';
 
-import { CheckCircleFillIcon, ChevronDownIcon } from './icons';
+import { ProviderIcon } from './provider-icon';
+import { useModel } from '@/contexts/model-context';
+import { CaretDown, CheckCircle } from '@phosphor-icons/react';
 
 export function ModelSelector({
-  selectedModelId,
   className,
-}: {
-  selectedModelId: string;
-} & React.ComponentProps<typeof Button>) {
+}: React.ComponentProps<typeof Button>) {
+  const { selectedModelId, setSelectedModelId } = useModel();
   const [open, setOpen] = useState(false);
   const [optimisticModelId, setOptimisticModelId] =
     useOptimistic(selectedModelId);
@@ -45,46 +44,58 @@ export function ModelSelector({
           className="md:px-2 md:h-[34px]"
         >
           {selectedChatModel?.name}
-          <ChevronDownIcon />
+          <CaretDown />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="min-w-[300px]">
-        {chatModels.map((chatModel) => {
-          const { id } = chatModel;
+        {chatModels
+          .filter((chatModel) => chatModel.isActive)
+          .sort((a, b) =>
+            a.isPremium === b.isPremium ? 0 : a.isPremium ? 1 : -1,
+          )
+          .map((chatModel) => {
+            const { id, isPremium } = chatModel;
 
-          return (
-            <DropdownMenuItem
-              data-testid={`model-selector-item-${id}`}
-              key={id}
-              onSelect={() => {
-                setOpen(false);
+            const handleSelect = () => {
+              setOpen(false);
+              startTransition(() => {
+                setOptimisticModelId(id);
+                document.cookie = `chat-model=${id}; path=/; max-age=31536000; SameSite=Lax`; // Expires in 1 year
+                setSelectedModelId(id);
+              });
+            };
 
-                startTransition(() => {
-                  setOptimisticModelId(id);
-                  saveChatModelAsCookie(id);
-                });
-              }}
-              data-active={id === optimisticModelId}
-              asChild
-            >
-              <button
-                type="button"
-                className="gap-4 group/item flex flex-row justify-between items-center w-full"
+            return (
+              <DropdownMenuItem
+                data-testid={`model-selector-item-${id}`}
+                key={id}
+                disabled={isPremium}
+                onSelect={!isPremium ? handleSelect : undefined}
+                data-active={id === optimisticModelId}
+                asChild
               >
-                <div className="flex flex-col gap-1 items-start">
-                  <div>{chatModel.name}</div>
-                  <div className="text-xs text-muted-foreground">
-                    {chatModel.description}
+                <button
+                  type="button"
+                  disabled={isPremium}
+                  className="gap-4 group/item flex flex-row justify-between items-center w-full"
+                >
+                  <div className="flex flex-row gap-3 items-center">
+                    <ProviderIcon provider={chatModel.provider} size={24} />
+                    <div className="flex flex-col gap-1 items-start">
+                      <div>{chatModel.name}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {chatModel.description}
+                      </div>
+                    </div>
                   </div>
-                </div>
 
-                <div className="text-foreground dark:text-foreground opacity-0 group-data-[active=true]/item:opacity-100">
-                  <CheckCircleFillIcon />
-                </div>
-              </button>
-            </DropdownMenuItem>
-          );
-        })}
+                  <div className="text-foreground dark:text-foreground opacity-0 group-data-[active=true]/item:opacity-100">
+                    <CheckCircle weight="fill" />
+                  </div>
+                </button>
+              </DropdownMenuItem>
+            );
+          })}
       </DropdownMenuContent>
     </DropdownMenu>
   );
